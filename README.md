@@ -14,7 +14,7 @@ This plugin tries to minimize the resizing dance by setting the **&lines** and *
 
 Use Vim 8.x, please: it's 2021.
 
-Add the following lines to your ~/.vimrc file. (%HOMEDRIVE%%HOMEPATH%/vimfiles/vimrc on Windows)
+Add the following lines to your `~/.vimrc` file. (`%HOMEDRIVE%%HOMEPATH%/vimfiles/vimrc` on Windows)
 
     call plug#begin('~/vimfiles/pack/plugged/start')
       Plug 'zingus/ToggleGuiFontSize'
