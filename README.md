@@ -28,7 +28,7 @@ This just installed a plug in with a `ToggleGuiFontSize()` function.
 Now you're supposed to **bind it yourself** to a valid key combination of your choosing.
 
 `ToggleGuiFontSize(sizeA,sizeB)` takes two arguments: those are the two sizes you want to cycle through. (a future version will accept a list of font sizes)
-A typical usage (I'm using **&lt;F5&gt;** to cycle through sizes) might be:
+A typical usage (I'm using **&lt;F5&gt;** to cycle through sizes, you will certainly want another binding for that) might be:
 
     map <F5> :call ToggleGuiFontSize(17,12)<cr><cr>
     imap <F5> <Esc>:call ToggleGuiFontSize(17,12)<cr><cr>i
