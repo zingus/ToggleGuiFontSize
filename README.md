@@ -8,7 +8,7 @@ Allows you to bind a single button to a fontsize change in Vim.
 
 Fontsize changes resize the gvim window. It's painful to watch.
 
-This plugin tries to minimize this resizing dance by setting the &lines and &columns gvim options to sensible values.
+This plugin tries to minimize the resizing dance by setting the **&lines** and **&columns** gvim options to sensible values.
 
 ## How to install
 
