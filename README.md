@@ -1,6 +1,6 @@
 # zingus/ToggleGuiFontSize
 
-## What does it do?
+## What does it do
 
 Allows you to bind a single button to a fontsize change in Vim.
 
