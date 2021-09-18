@@ -1,4 +1,7 @@
-#How to install
+# zingus/ToggleGuiFontSize
+
+
+## How to install
 
 Use Vim 8.x, please: it's 2021.
 
@@ -17,6 +20,6 @@ Type the :PlugInstall command.
 
 Done.
 
-#License
+## License
 
 Distributed under the terms of the GPL-3.0-or-later license
