@@ -1,0 +1,141 @@
+source $VIMRUNTIME/defaults.vim
+source $VIMRUNTIME/mswin.vim
+
+" Arrow keys fix for terminal windows
+tnoremap <C-W><Left>  <C-W>h
+tnoremap <C-W><Down>  <C-W>j
+tnoremap <C-W><Up>    <C-W>k
+tnoremap <C-W><Right> <C-W>l
+
+tnoremap <C-T> <C-W>:term cmd /K C:\Users\Zingus\Onedrive\Software
+
+tnoremap <C-V>   <C-W>"*
+tnoremap <C-N>   <C-W>N
+tnoremap <S-Esc> <C-W>N
+
+set visualbell
+
+":command -nargs=* Git :term cmd /c "git <args>"
+":command -nargs=* GitPush :term cmd /c "git push <args>"
+":command -nargs=* GitPull :term cmd /c "git pull <args>"
+":command -nargs=* GitCommit :term "cmd /c \"git commit -am \"".input("Commit Message: ")."\" <args>\""
+":command -nargs=* Commit :exe "term cmd /c \"git commit -am \"".input("Commit Message: ")."\" <args>\""
+
+
+
+"command Vimrc :new $HOME/_vimrc
+command Vimrc :new $HOME/vimfiles/vimrc
+"command Vimrc :new $VIM/_vimrc
+
+command Vimfiles :exec '!explorer '.expand('$HOME/vimfiles')
+
+
+set guifont=Source_Code_Pro:h17
+set nowrap et ts=2 sw=2 hls
+
+set  dir=$TEMP,c:\tmp,c:\temp
+set bdir=$TEMP,c:\tmp,c:\temp
+
+" kill autoindent for selected languages
+au Filetype rust set ts=2 sw=2 sts=2 indentexpr=
+au Filetype html set indentexpr=
+
+au BufNewFile,BufRead *.desc setf xml
+au BufNewFile,BufRead dosbox.conf setf dosini
+au BufNewFile,BufRead .phploy setf dosini
+
+au Filetype markdown silent TableModeEnable
+
+command CD :exec 'cd "'.substitute(bufname('%'),'[^\\//]*$','','').'"'
+
+sball
+set ignorecase smartcase
+
+command UTF16 e ++enc=utf-16le
+
+" open all folds whe loading new file
+"au BufNewFile,BufRead * normal zR
+set foldlevelstart=99
+
+" Make Filename Completion (^X^F) Great Again
+let &isfname="\\, ,".&isfname
+
+call plug#begin('~/vimfiles/pack/plugged/start')
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'dense-analysis/ale'
+Plug 'voldikss/vim-floaterm'
+" snipmate
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+" es6
+"Plug 'isRuslan/vim-es6'
+Plug 'maxmellon/vim-jsx-pretty'
+"Plug 'pangloss/vim-javascript'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'zingus/ToggleGuiFontSize'
+call plug#end()
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \ 'whitelist': ['rust'],
+        \ })
+endif
+
+command NoSlash :let @/ = ""
+
+au BufNewFile,BufRead *.php set indentexpr=
+
+command -nargs=1 T Template <q-args>
+map gf :new <cfile><CR>
+
+command -nargs=1 Cheatsheet :new $HOME/vimfiles/cheatsheets/<args>
+
+if $VIM_TERMINAL && len(v:argv) > 1 && filter(copy(v:argv),'v:val == "--remote"') == []
+  let s:argv=flatten([v:argv[0],'-c','new','--remote',map(v:argv[1:],"shellescape(v:val)")])
+  exec ":! " . join(s:argv," ")
+  qa!
+endif
+
+au BufNewFile,BufRead *.scad :command Run :term ++close ++hidden "C:\Program Files\OpenSCAD\openscad.exe" %
+au BufNewFile package.json :Template packagejson
+
+""let g:netrw_browsex_viewer="msedge" "does not work
+"let g:netrw_gx="<cfile>"
+""let g:netrw_browsex_viewer="explorer "
+"let g:netrw_browsex_viewer="\"C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe\""
+
+command Appunti cd ~\OneDrive\Appunti
+
+function MoveTo(directory)
+  if has("win32")
+    let s:opts=":gs?/?\\?"
+  else
+    let s:opts=""
+  endif
+  let s:bufname=expand("%")
+  let s:tail=fnamemodify(s:bufname,":t")
+  let s:directory=fnamemodify(a:directory,":p".s:opts)
+  let s:dest=fnamemodify(s:directory . s:tail,":p")
+  exe "sav" s:dest
+  if expand("%")!=s:bufname
+    call delete(s:bufname)
+    echo "Moved ".fnameescape(s:bufname)." To ".fnameescape(expand("%"))
+  endif
+endfun
+
+command MoveToDesktop call MoveTo($HOME."/Desktop")
+command MoveToSoftware call MoveTo($HOME."/OneDrive/Software")
+
+command NOBS :s/\\/\//g
+
+"nmap <silent>gx :sil !start <cfile><c-r><c-a><cr>
+nmap <silent>gx :sil echo <cfile><c-r><c-a><cr>
+
+map <F5> :call ToggleGuiFontSize(17,12,9)<cr><cr>
+imap <F5> <Esc>:call ToggleGuiFontSize(17,12,9)<cr><cr>i
